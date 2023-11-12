@@ -41,21 +41,23 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        // $input = [
-		// 	'nama' => $request->nama,
-		// 	'nim' => $request->nim,
-		// 	'email' => $request->email,
-		// 	'jurusan' => $request->jurusan
-		// ];
+         #validate
+		 $validateData = $request->validate([
+            'nama' => 'required',
+            'nim' => 'numeric|required',
+            'email' => 'email|required',
+            'jurusan' => 'required'
+        ]);
 
-		$student = Student::create($request->all());
+		$student = Student::create($validateData);
 
-		$response = [
-			'message' => 'Data Student Berhasil Dibuat',
-			'data' => $student,
-		];
+		$data = [
+            'message' => 'Student is created succesfully',
+            'data' => $student,
+        ];
 
-		return response()->json($response, 201);
+        // mengembalikan data (json) dan kode 201
+        return response()->json($data, 201);
 	
     }
 
